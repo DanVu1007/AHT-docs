@@ -1,0 +1,96 @@
+ - Tạo module bằng magwiget
+ 	+ check: bin/magento module:status
+ 	+ register: bin/magento s:up
+ - Tạo bảng bằng db_schema.xml
+ - Thêm dữ liệu bằng Setup/UpgradeData.php
+ 	+ remmove EAV
+ 	+ add postFactory (di: Model/Post.php)
+ 	+ Setup/UpgradeData.php: 
+ 		++ function upgrade: search gg 'upgrade data magento 2' - megaplaza
+ - UI component
+      ---- Listing ----
+	
+ 	- etc/adminhtml/routes.xml
+ 	- controller: 	Controller/adminhtml/Post/index.php
+ 	- view:	view/adminhtml/layout/portfolio_post_index.xml
+ 				+ <uiComponent name="pike_post_listing" />
+ 	- view: tạo:	view/adminhtml/ui_component/dan_post_listing.xml
+ 				+ nội dung file dan_post_listing:
+ 					+ lên trang mage2gen
+ 					+ thêm vào module: id, name, conent
+ 					+ copy nd file listing
+ 				+ sửa nội dung file dan_post_listing.xml
+ 					+ dan_post_listing
+ 					+ dan_post_listing_data_source
+ 					+ comment lại actionColumn
+ 	- ect: tạo etc/di.xml
+ 		+ nội dung copy phần virtualType,type trên mage2gen
+ 		+ sửa: dan_post_listing_data_source
+ 	- Module: Tạo Module/post/grid/collection.php
+ 	
+      ---- UiForm ----
+ 	
+ 	- controller: 	tạo Controller/Adminhtml/Post/NewAction.php
+ 	- controller: 	tạo Controller/Adminhtml/Post/Edit.php
+ 				+ thay đổi nd: id - tên table
+ 	- Controller: 	tạo Controller/Post.php
+ 	- layout: 	tạo view/adminhtml/layout/dan_post_edit.xml
+ 				+ layout = "admin-1column" - sửa
+ 	- ui_component: tạo dan_post_form.xml
+ 				+ sửa nội dung file dan_post_form.xml
+ 					+ dan_port_form
+ 					+ dan_form_data_source
+ 					+ id: danPort_id
+ 					
+ 				+ tạo Block: edit*
+ 	- Tạo Block:
+ 			+ Tạo Block/Adminhtml/Post/Edit/BackButton.php
+ 			+ Tạo Block/Adminhtml/Post/Edit/DeleteButton.php
+ 			+ Tạo Block/Adminhtml/Post/Edit/GenericButton.php
+ 			+ Tạo Block/Adminhtml/Post/Edit/SaveAndContinueButton.php
+ 			+ Tạo Block/Adminhtml/Post/Edit/SaveButton.php
+ 	- Model: Tạo Model/Post/DataProvider.php 
+ 	
+      ---- CRUD ----
+ 	
+ 	- controller: tạo controller/Adminhtml/Post/Save.php
+ 			+ copy nội dung trên vi-magento.com - thêm, xóa, sửa dữ liệu trong magento2
+ 				+ thay đổi namespace - id
+ 				+ thay đổi $newData
+ 				+ thay đổi setPath('');
+ 	- ui_component/dan_post_listing.xml
+			+ thêm bộ thẻ <actionsColumn>
+				+ thay đổi id và namespace
+			+ Tạo file PostActions.php
+	- Ui/Component/Listing/Column: tạo PostActions.php đường dẫn phải giống class của <actionsColumn>
+			+ Nội dung lấy từ mage2gen
+				+ thay đổi url
+				+ thay đổi id
+			==> đến bước này sẽ hiển thị edit và delete trong column actions
+				vì đã viết action edit trước nên không cần thêm nữa
+				action delete cần thêm
+	- Controller: Controller/Adminhtml/Post/Delete.php
+			+ copy từ mage2gen.php sửa id -> xong
+			
+      ---- Mass Delete ----
+	- trong ui_component/dan_post_listing.xml
+			+ thêm bộ thẻ <massaction>
+				+ ở action delete đổi lại url
+	- Controller: tạo controller/Adminhtml/post/MassDelete.php
+			+ nội dung lấy ở vi-magento.vn
+				+ check lại namespace
+				+ check lại id
+				+ check lại url
+				
+- UPLOAD IMG--------------------------------------------------------------------
+	- ui_component
+		+ thêm nội dung: <field name="image">
+	- Model
+		+ tạo Imageupload.php, FileInfo.php trong model, sau đó sửa DataProvider.php---7"20s
+	- Controller
+		+ Tạo controller upload
+		+ Tạo controller save
+	- UI
+		+ Tạo image trong UI/Component/Listing/Column/ để hiển thị ảnh ở List
+		
+ 	

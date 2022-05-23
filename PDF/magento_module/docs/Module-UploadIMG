@@ -1,0 +1,11 @@
+-------------------------UPLOAD IMAGE-------------------------
+- ui_component
+	+ thêm nội dung: <field name="image">
+- Model
+	+ tạo Imageupload.php, FileInfo.php trong model, sau đó sửa DataProvider.php---7"20s
+- Controller
+	+ Tạo controller upload
+	+ Tạo controller save
+- UI
+	+ Tạo image trong UI/Component/Listing/Column/ để hiển thị ảnh ở List
+	
